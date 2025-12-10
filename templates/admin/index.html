@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админка - HR-бот</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="admin-container">
+    <h1>Панель администратора</h1>
+    
+    <div class="admin-cards">
+        <div class="admin-card">
+            <h3>Управление сотрудниками</h3>
+            <p>Добавление, редактирование и удаление сотрудников</p>
+            <a href="/admin/employees" class="btn btn-primary">Управлять</a>
+        </div>
+        
+        <div class="admin-card">
+            <h3>Управление отпусками</h3>
+            <p>Просмотр и одобрение заявок на отпуск</p>
+            <a href="/admin/vacations" class="btn btn-primary">Управлять</a>
+        </div>
+        
+        <div class="admin-card">
+            <h3>Настройки графика</h3>
+            <p>Настройка рабочих и выходных дней</p>
+            <a href="/admin/schedule" class="btn btn-primary">Настроить</a>
+        </div>
+        
+        <div class="admin-card">
+            <h3>Отчёты</h3>
+            <p>Генерация и экспорт отчётности</p>
+            <a href="/admin/reports" class="btn btn-primary">Смотреть</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<style>
+.admin-container {
+    padding: 20px 0;
+}
+
+.admin-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.admin-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.admin-card h3 {
+    color: #343a40;
+    margin-bottom: 10px;
+}
+
+.admin-card p {
+    color: #6c757d;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+</style>
+{% endblock %}
