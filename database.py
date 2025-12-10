@@ -60,6 +60,21 @@ class ReportCard12(BaseModel):
     days = TextField()  # Храним JSON как текст
     date_change = DateTimeField(default=datetime.now)  # Дата изменения графика 🆕 Новая колонка
 
+class ReportCard01(BaseModel):
+    """График выходов сотрудников на январь 2026"""
+    ksp = CharField()
+    name = CharField()
+    category = CharField()
+    profession = CharField()
+    status = CharField()
+    abbreviation = CharField(null=True)
+    grade = CharField(null=True)
+    tab = CharField()
+    fio = CharField()
+    salary = CharField()
+    days = TextField()  # Храним JSON как текст
+    date_change = DateTimeField(default=datetime.now)  # Дата изменения графика
+
 
 class Employee(BaseModel):
     service_number = CharField()  # Имя сотрудника
@@ -85,6 +100,7 @@ def initialize_db():
     db.create_tables([ReportCard10])  # График выходов сотрудников на октябрь 2025
     db.create_tables([ReportCard11])  # График выходов сотрудников на ноябрь 2025
     db.create_tables([ReportCard12])  # График выходов сотрудников на декабрь 2025
+    db.create_tables([ReportCard01])  # График выходов сотрудников на январь 2026
 
     db.create_tables([DataStaff])
 

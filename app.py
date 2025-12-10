@@ -16,7 +16,7 @@ from peewee import IntegrityError
 from pydantic import BaseModel
 
 from config import AUTHORIZED_USERNAME, AUTHORIZED_PASSWORD
-from database import initialize_db, ReportCard10, ReportCard11, ReportCard12, DataStaff, db
+from database import initialize_db, ReportCard10, ReportCard11, ReportCard12, ReportCard01, DataStaff, db
 
 
 logger.add("log/log.log")  # 📝 логирование
@@ -452,6 +452,7 @@ REPORT_CARD_MODELS = {
     10: ReportCard10,
     11: ReportCard11,
     12: ReportCard12,
+    1: ReportCard01
 }
 
 

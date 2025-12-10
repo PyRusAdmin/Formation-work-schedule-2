@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}График работы сотрудников на декабрь 2025{% endblock %}
+{% block title %}График работы сотрудников на январь 2026{% endblock %}
 
 {% block content %}
 
-<h1 class="text-2xl font-bold mb-6 text-center">График работы сотрудников на декабрь 2025</h1>
+<h1 class="text-2xl font-bold mb-6 text-center">График работы сотрудников на Январь 2026</h1>
 
 <!-- Фильтры -->
 <div class="filter-section mb-6">
@@ -303,7 +303,7 @@
     // Загрузка данных
     async function loadData() {
         try {
-            const response = await fetch("/data_12");
+            const response = await fetch("/data_01");
             if (!response.ok) throw new Error("Ошибка загрузки данных");
             const rawData = await response.json();
 
