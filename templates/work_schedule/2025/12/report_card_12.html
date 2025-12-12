@@ -78,6 +78,13 @@
     </table>
 </div>
 
+
+<!-- Скачать в Excel -->
+<button id="download-excel" class="download-button">Скачать в Excel</button>
+
+
+
+
 <!-- Легенда значений -->
 <div class="legend-container">
     <h2>Легенда значений</h2>
@@ -348,6 +355,11 @@
 
     // Загрузка при старте
     loadData();
+
+    // Обработчик скачивания Excel
+    document.getElementById('download-excel').onclick = async function() {
+        window.location.href = "/download_excel_12";
+    };
 </script>
 
 {% endblock %}

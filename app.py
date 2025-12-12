@@ -7,6 +7,7 @@ from typing import Annotated
 from typing import List
 
 from fastapi import FastAPI, Request, Depends, HTTPException, Form, Path
+from fastapi.responses import Response
 from fastapi.responses import HTMLResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.staticfiles import StaticFiles
@@ -17,7 +18,9 @@ from pydantic import BaseModel
 
 from config import AUTHORIZED_USERNAME, AUTHORIZED_PASSWORD
 from database import initialize_db, ReportCard10, ReportCard11, ReportCard12, ReportCard01, DataStaff, db
-
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.utils import get_column_letter
 
 logger.add("log/log.log")  # 📝 логирование
 
@@ -199,6 +202,8 @@ async def report_card_11(request: Request):
 async def report_card_12(request: Request):
     """
     Страница формирования табеля сотрудников декабрь 2025 года
+    :param request: Request - запрос
+    :return: HTMLResponse - ответ
     """
     try:
         return templates.TemplateResponse("work_schedule/2025/12/report_card_12.html", {"request": request})
@@ -206,15 +211,119 @@ async def report_card_12(request: Request):
         logger.exception(e)
 
 
+@app.get("/download_excel_12")
+async def download_excel_12():
+    """
+    Эндпоинт для скачивания Excel-файла с данными за декабрь 2025
+    :return: Response - файл Excel
+    """
+    # Получаем данные из базы
+    employees = []
+    for emp in ReportCard12.select():
+        employees.append({
+            "КСП": emp.ksp,
+            "Наименование": emp.name,
+            "Категория": emp.category,
+            "Профессия": emp.profession,
+            "Статус": emp.status,
+            "Таб": emp.tab,
+            "ФИО": emp.fio,
+            "Тариф": emp.salary,
+            "days": json.loads(emp.days)
+        })
+
+    # Создаем Excel
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "График декабрь 2025"
+
+    # Заголовки
+    headers = ["КСП", "Наименование", "Категория", "Профессия", "Статус", "Таб", "ФИО", "Тариф"] + [str(i) for i in range(1, 32)]
+    for col_num, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col_num)
+        cell.value = header
+        cell.font = Font(bold=True)
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+
+    # Данные
+    for row_idx, emp in enumerate(employees, 2):
+        # Основные данные
+        ws.cell(row=row_idx, column=1).value = emp["КСП"]
+        ws.cell(row=row_idx, column=2).value = emp["Наименование"]
+        ws.cell(row=row_idx, column=3).value = emp["Категория"]
+        ws.cell(row=row_idx, column=4).value = emp["Профессия"]
+        ws.cell(row=row_idx, column=5).value = emp["Статус"]
+        ws.cell(row=row_idx, column=6).value = emp["Таб"]
+        ws.cell(row=row_idx, column=7).value = emp["ФИО"]
+        ws.cell(row=row_idx, column=8).value = emp["Тариф"]
+
+        # Дни месяца
+        for day_idx, day_value in enumerate(emp["days"]):
+            cell = ws.cell(row=row_idx, column=9 + day_idx)
+            cell.value = day_value
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            # Цвета
+            if day_value == "Б":
+                cell.fill = PatternFill(start_color="FFCDD2", end_color="FFCDD2", fill_type="solid")
+            elif day_value == "О":
+                cell.fill = PatternFill(start_color="C5CAE9", end_color="C5CAE9", fill_type="solid")
+            elif day_value == "1":
+                cell.fill = PatternFill(start_color="C8E6C9", end_color="C8E6C9", fill_type="solid")
+            elif day_value == "ПС":
+                cell.fill = PatternFill(start_color="FFECB3", end_color="FFECB3", fill_type="solid")
+            elif day_value == "ДО":
+                cell.fill = PatternFill(start_color="D1C4E9", end_color="D1C4E9", fill_type="solid")
+            elif day_value == "БД":
+                cell.fill = PatternFill(start_color="B3E5FC", end_color="B3E5FC", fill_type="solid")
+            elif day_value == "Г":
+                cell.fill = PatternFill(start_color="B2DFDB", end_color="B2DFDB", fill_type="solid")
+            elif day_value in ["В", "в"]:
+                cell.fill = PatternFill(start_color="FFF9C4", end_color="FFF9C4", fill_type="solid")
+            elif day_value == "-":
+                cell.fill = PatternFill(start_color="CFD8DC", end_color="CFD8DC", fill_type="solid")
+
+    # Автоширина
+    for col in ws.columns:
+        max_length = 0
+        column = col[0].column_letter
+        for cell in col:
+            try:
+                if len(str(cell.value)) > max_length:
+                    max_length = len(str(cell.value))
+            except:
+                pass
+        adjusted_width = min(max_length + 2, 20)
+        ws.column_dimensions[column].width = adjusted_width
+
+    # Высота строк
+    for row in ws.iter_rows(min_row=1, max_row=ws.max_row):
+        ws.row_dimensions[row[0].row].height = 20
+
+    # Ответ
+    from io import BytesIO
+    output = BytesIO()
+    wb.save(output)
+    output.seek(0)
+
+    headers = {
+        "Content-Disposition": "attachment; filename=report_card_12.xlsx"
+    }
+    return Response(content=output.read(), media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    headers=headers)
+
+
 @app.get("/report_card_01", response_model=None)
 async def report_card_12(request: Request):
     """
     Страница формирования табеля сотрудников январь 2026 года
+    :param request: Request - запрос
+    :return: HTMLResponse - ответ
     """
     try:
         return templates.TemplateResponse("work_schedule/2026/01/report_card_01.html", {"request": request})
     except Exception as e:
         logger.exception(e)
+
 
 def authenticate_user(credentials: HTTPBasicCredentials = Depends(security)):
     # Защита от None (если переменные не заданы в .env)
