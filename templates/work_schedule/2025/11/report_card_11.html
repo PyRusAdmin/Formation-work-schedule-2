@@ -4,6 +4,8 @@
 
 {% block content %}
 
+{% from 'macros/macros.html' import legend_values %}
+
 <h1 class="text-2xl font-bold mb-6 text-center">График работы сотрудников на ноябрь 2025</h1>
 
 <!-- Фильтры -->
@@ -79,48 +81,49 @@
     </table>
 </div>
 
-<!-- Легенда значений -->
-<div class="legend-container">
-    <h2>Легенда значений</h2>
-    <div class="legend-grid">
-        <div class="legend-item">
-            <div class="legend-color red"></div>
-            Б - Больничный
-        </div>
-        <div class="legend-item">
-            <div class="legend-color blue"></div>
-            О - Отпуск
-        </div>
-        <div class="legend-item">
-            <div class="legend-color green"></div>
-            1 - Рабочий день
-        </div>
-        <div class="legend-item">
-            <div class="legend-color amber"></div>
-            ПС - Простой предприятия
-        </div>
-        <div class="legend-item">
-            <div class="legend-color purple"></div>
-            ДО - Декретный отпуск
-        </div>
-        <div class="legend-item">
-            <div class="legend-color indigo"></div>
-            БД - Бесплатный день
-        </div>
-        <div class="legend-item">
-            <div class="legend-color cyan"></div>
-            Г - Служит
-        </div>
-        <div class="legend-item">
-            <div class="legend-color yellow"></div>
-            В - Выходной
-        </div>
-        <div class="legend-item">
-            <div class="legend-color gray"></div>
-            - - Не работает
-        </div>
-    </div>
-</div>
+{{ legend_values() }}
+<!--&lt;!&ndash; Легенда значений &ndash;&gt;-->
+<!--<div class="legend-container">-->
+<!--    <h2>Легенда значений</h2>-->
+<!--    <div class="legend-grid">-->
+<!--        <div class="legend-item">-->
+<!--            <div class="legend-color red"></div>-->
+<!--            Б - Больничный-->
+<!--        </div>-->
+<!--        <div class="legend-item">-->
+<!--            <div class="legend-color blue"></div>-->
+<!--            О - Отпуск-->
+<!--        </div>-->
+<!--        <div class="legend-item">-->
+<!--            <div class="legend-color green"></div>-->
+<!--            1 - Рабочий день-->
+<!--        </div>-->
+<!--        <div class="legend-item">-->
+<!--            <div class="legend-color amber"></div>-->
+<!--            ПС - Простой предприятия-->
+<!--        </div>-->
+<!--        <div class="legend-item">-->
+<!--            <div class="legend-color purple"></div>-->
+<!--            ДО - Декретный отпуск-->
+<!--        </div>-->
+<!--        <div class="legend-item">-->
+<!--            <div class="legend-color indigo"></div>-->
+<!--            БД - Бесплатный день-->
+<!--        </div>-->
+<!--        <div class="legend-item">-->
+<!--            <div class="legend-color cyan"></div>-->
+<!--            Г - Служит-->
+<!--        </div>-->
+<!--        <div class="legend-item">-->
+<!--            <div class="legend-color yellow"></div>-->
+<!--            В - Выходной-->
+<!--        </div>-->
+<!--        <div class="legend-item">-->
+<!--            <div class="legend-color gray"></div>-->
+<!--            - - Не работает-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!-- Выбор даты для сортировки и подсчёта -->
 <div class="sort-section mb-6">

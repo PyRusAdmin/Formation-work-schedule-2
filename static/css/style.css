@@ -294,8 +294,15 @@ button:hover {
 .legend-color.red {background: #fde2e2;}
 /* Б */
 .legend-color.blue {background: #dceeff;}
-/* О */
-.legend-color.green {background: #c8e6c9;}
+
+
+
+
+
+
+
+
+
 .legend-color.amber {background: #ffecb3;}
 .legend-color.purple {background: #f3e5f5;}
 .legend-color.indigo {background: #e0e7ff;}
@@ -446,8 +453,19 @@ h1, h2 {
 
 /* Цвета легенды */
 .legend-color.red {background: #fde2e2;}
+
+
+/* Цвета легенды */
 .legend-color.blue {background: #dceeff;}
+
+
+
+/* О отпуск */
 .legend-color.green {background: #c8e6c9;}
+
+
+
+
 .legend-color.amber {background: #ffecb3;}
 .legend-color.purple {background: #f3e5f5;}
 .legend-color.indigo {background: #e0e7ff;}

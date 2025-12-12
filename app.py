@@ -7,20 +7,19 @@ from typing import Annotated
 from typing import List
 
 from fastapi import FastAPI, Request, Depends, HTTPException, Form, Path
-from fastapi.responses import Response
 from fastapi.responses import HTMLResponse
+from fastapi.responses import Response
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from loguru import logger  # https://github.com/Delgan/loguru
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font, PatternFill
 from peewee import IntegrityError
 from pydantic import BaseModel
 
 from config import AUTHORIZED_USERNAME, AUTHORIZED_PASSWORD
 from database import initialize_db, ReportCard10, ReportCard11, ReportCard12, ReportCard01, DataStaff, db
-from openpyxl import Workbook
-from openpyxl.styles import Alignment, Font, PatternFill
-from openpyxl.utils import get_column_letter
 
 logger.add("log/log.log")  # 📝 логирование
 
