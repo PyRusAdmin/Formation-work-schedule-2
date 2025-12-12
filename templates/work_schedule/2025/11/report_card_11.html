@@ -4,7 +4,7 @@
 
 {% block content %}
 
-{% from 'macros/macros.html' import legend_values %}
+{% from 'macros/macros.html' import legend_values, main_table %}
 
 <h1 class="text-2xl font-bold mb-6 text-center">График работы сотрудников на ноябрь 2025</h1>
 
@@ -81,6 +81,7 @@
     </table>
 </div>
 
+<!--Легенда-->
 {{ legend_values() }}
 
 <!-- Выбор даты для сортировки и подсчёта -->
